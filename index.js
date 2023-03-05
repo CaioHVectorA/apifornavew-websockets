@@ -11,11 +11,12 @@ app.use(morgan('dev'))
 app.use(bodyParser.urlencoded({extended: false}))
 app.use(express.json())
 app.use(cors())
+app.use(routes)
 
 // iRt9PsVNkKe3DOpk
 mongoose.set('strictQuery',false)
 
-mongoose.connect('mongodb+srv://APIforNAVE:<password>@dados.dbbl6x2.mongodb.net/?retryWrites=true&w=majority')
+mongoose.connect('mongodb+srv://APIforNAVE:iRt9PsVNkKe3DOpk@dados.dbbl6x2.mongodb.net/?retryWrites=true&w=majority')
 .then(() => {
     app.listen(port, () => console.log('servidor Rodando!'))
 })
