@@ -163,7 +163,7 @@ routes.get('/aprovedChar', async (req, res) => {
     return res.json(uniqueDB)
 })
 
-routes.post('/Hist',async (req, res) => {
+routes.post('/hist',async (req, res) => {
     const Hists = await Hist.find()
     const { Titulo, Subtitulo, Sinopse, Autoria, Historia, Personagens} = await req.body
     if (!Titulo || !Historia) {
@@ -197,7 +197,7 @@ routes.post('/Hist',async (req, res) => {
     }
 })
 
-routes.get('/Hist',async (req, res) => {
+routes.get('/hist',async (req, res) => {
     let tempdb = []
     const Hists = await Hist.find()
     Hists.forEach((item, index) => {
