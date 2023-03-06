@@ -166,7 +166,7 @@ routes.get('/aprovedChar', async (req, res) => {
 routes.post('/Hist',async (req, res) => {
     const Hists = await Hist.find()
     const { Titulo, Subtitulo, Sinopse, Autoria, Historia, Personagens} = await req.body
-    if (!Nome || !Historia) {
+    if (!Titulo || !Historia) {
         return res.status(422).json({error: req.body})
     }
 
@@ -181,7 +181,7 @@ routes.post('/Hist',async (req, res) => {
 
     }
     let Historiap = {
-        Nome,
+        Titulo,
         Subtitulo,
         Sinopse,
         Autoria,
