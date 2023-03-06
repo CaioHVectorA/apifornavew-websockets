@@ -19,18 +19,20 @@ Autoria: String
 })
 
 const Hist = mongoose.model('hist',{
-    Titulo: String,
-    Subtitulo: String,
-    Sinopse: String,
-    Autoria: String,
-    Historia: String
+        Titulo: String,
+        Subtitulo: String,
+        Sinopse: String,
+        Autoria: String,
+        Historia: String,
+        Personagens: Array,
 })
 const HistApproved = mongoose.model('histAproved',{
     Titulo: String,
     Subtitulo: String,
     Sinopse: String,
     Autoria: String,
-    Historia: String
+    Historia: String,
+    Personagens: Array
 })
 
 let db = []
@@ -163,9 +165,8 @@ routes.get('/aprovedChar', async (req, res) => {
 
 routes.post('/Hist',async (req, res) => {
     const Hists = await Hist.find()
-    const { Titulo, Subtitulo, Sinopse, Autoria, Historia} = await req.body
-    if (!Nome || !Desc || !Aparencia || !Poder || !Autoria) {
-        console.log(Desc)
+    const { Titulo, Subtitulo, Sinopse, Autoria, Historia, Personagens} = await req.body
+    if (!Nome || !Historia) {
         return res.status(422).json({error: req.body})
     }
 
@@ -179,15 +180,16 @@ routes.post('/Hist',async (req, res) => {
         return res.status(202).json({error: 'A história já existe no sistema'})
 
     }
-    let Character = {
+    let Historiap = {
         Nome,
-        Desc,
-        Aparencia,
-        Poder,
-        Autoria
+        Subtitulo,
+        Sinopse,
+        Autoria,
+        Historia,
+        Personagens
     }
     try {
-        await Hist.create(Character)
+        await Hist.create(Historiap)
         // await Char.deleteOne({ Nome: Nome, Autoria: Autoria })
         res.status(201).json({message: 'História inserida no sistema.'})
     } catch (error) {
