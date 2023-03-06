@@ -247,7 +247,7 @@ routes.post('/aprovedhist', async (req, res) => {
     }
     try {
         await HistApproved.create(Historiap)
-        // await Char.deleteOne({ Nome: Nome, Autoria: Autoria })
+        await Hist.deleteOne({ Titulo: Titulo, Autoria: Autoria })
         res.status(201).json({message: 'História inserida no sistema.'})
     } catch (error) {
         res.status(500).json({error: error})
