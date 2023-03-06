@@ -18,6 +18,21 @@ Poder: String,
 Autoria: String
 })
 
+const Hist = mongoose.model('hist',{
+    Titulo: String,
+    Subtitulo: String,
+    Sinopse: String,
+    Autoria: String,
+    Historia: String
+})
+const HistApproved = mongoose.model('histAproved',{
+    Titulo: String,
+    Subtitulo: String,
+    Sinopse: String,
+    Autoria: String,
+    Historia: String
+})
+
 let db = []
 routes.delete('/deletartudo',async (req, res) => {
     // const chars = await Char.find()
@@ -145,4 +160,50 @@ routes.get('/aprovedChar', async (req, res) => {
     const uniqueDB = [... new Set(tempdb.map(item => JSON.stringify(item)))].map(item => JSON.parse(item))
     return res.json(uniqueDB)
 })
+
+routes.post('/Hist',async (req, res) => {
+    const Hists = await Hist.find()
+    const { Titulo, Subtitulo, Sinopse, Autoria, Historia} = await req.body
+    if (!Nome || !Desc || !Aparencia || !Poder || !Autoria) {
+        console.log(Desc)
+        return res.status(422).json({error: req.body})
+    }
+
+    let jaexiste;
+    Hists.forEach((item) => {
+        if (item.Titulo === Titulo) {
+            jaexiste = true
+        }
+    })
+    if (jaexiste) {
+        return res.status(202).json({error: 'A história já existe no sistema'})
+
+    }
+    let Character = {
+        Nome,
+        Desc,
+        Aparencia,
+        Poder,
+        Autoria
+    }
+    try {
+        await Hist.create(Character)
+        // await Char.deleteOne({ Nome: Nome, Autoria: Autoria })
+        res.status(201).json({message: 'História inserida no sistema.'})
+    } catch (error) {
+        res.status(500).json({error: error})
+    }
+})
+
+routes.get('/Hist',async (req, res) => {
+    let tempdb = []
+    const Hists = await Hist.find()
+    Hists.forEach((item, index) => {
+        const finalItem = {...item.toObject(),id: index += 1}
+        tempdb.push(finalItem)
+    })
+    const uniqueDB = [... new Set(tempdb.map(item => JSON.stringify(item)))].map(item => JSON.parse(item))
+    return res.json(uniqueDB)
+})
+
 module.exports = routes
