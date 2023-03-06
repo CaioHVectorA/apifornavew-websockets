@@ -220,16 +220,16 @@ routes.get('/hist',async (req, res) => {
     return res.json(uniqueDB)
 })
 
-routes.post('/aprovedHist', async (req, res) => {
+routes.post('/aprovedhist', async (req, res) => {
     const hists = await Hist.find()
-    const CharsAproved = await HistApproved.find()
+    const histsaproved = await HistApproved.find()
     const { Titulo, Subtitulo, Autoria, Historia, Personagens} = await req.body
     if (!Titulo || !Historia) {
         return res.status(422).json({error: req.body})
     }
 
     let jaexiste;
-    HistApproved.forEach((item) => {
+    histsaproved.forEach((item) => {
         if (item.Nome === Nome) {
             jaexiste = true
         }
@@ -246,7 +246,7 @@ routes.post('/aprovedHist', async (req, res) => {
         Personagens
     }
     try {
-        await Hist.create(Historiap)
+        await HistApproved.create(Historiap)
         // await Char.deleteOne({ Nome: Nome, Autoria: Autoria })
         res.status(201).json({message: 'História inserida no sistema.'})
     } catch (error) {
@@ -254,7 +254,7 @@ routes.post('/aprovedHist', async (req, res) => {
     }
 })
 
-routes.get('/aprovedHist', async (req, res) => {
+routes.get('/aprovedhist', async (req, res) => {
     let tempdb = [];
     const histsAproved = await HistApproved.find()
     histsAproved.forEach((item, index) => {
