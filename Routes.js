@@ -21,7 +21,6 @@ Autoria: String
 const Hist = mongoose.model('hist',{
         Titulo: String,
         Subtitulo: String,
-        Sinopse: String,
         Autoria: String,
         Historia: String,
         Personagens: Array,
@@ -29,7 +28,6 @@ const Hist = mongoose.model('hist',{
 const HistApproved = mongoose.model('histAproved',{
     Titulo: String,
     Subtitulo: String,
-    Sinopse: String,
     Autoria: String,
     Historia: String,
     Personagens: Array
@@ -165,7 +163,7 @@ routes.get('/aprovedChar', async (req, res) => {
 
 routes.post('/hist',async (req, res) => {
     const Hists = await Hist.find()
-    const { Titulo, Subtitulo, Sinopse, Autoria, Historia, Personagens} = await req.body
+    const { Titulo, Subtitulo, Autoria, Historia, Personagens} = await req.body
     if (!Titulo || !Historia) {
         return res.status(422).json({error: req.body})
     }
@@ -183,7 +181,6 @@ routes.post('/hist',async (req, res) => {
     let Historiap = {
         Titulo,
         Subtitulo,
-        Sinopse,
         Autoria,
         Historia,
         Personagens
@@ -204,6 +201,52 @@ routes.get('/hist',async (req, res) => {
         const finalItem = {...item.toObject(),id: index += 1}
         tempdb.push(finalItem)
     })
+    const uniqueDB = [... new Set(tempdb.map(item => JSON.stringify(item)))].map(item => JSON.parse(item))
+    return res.json(uniqueDB)
+})
+
+routes.post('/aprovedHist', async (req, res) => {
+    const hists = await Hist.find()
+    const CharsAproved = await HistApproved.find()
+    const { Titulo, Subtitulo, Autoria, Historia, Personagens} = await req.body
+    if (!Titulo || !Historia) {
+        return res.status(422).json({error: req.body})
+    }
+
+    let jaexiste;
+    HistApproved.forEach((item) => {
+        if (item.Nome === Nome) {
+            jaexiste = true
+        }
+    })
+    if (jaexiste) {
+        return res.status(202).json({error: 'A pessoa já existe no sistema'})
+
+    }
+    let Historiap = {
+        Titulo,
+        Subtitulo,
+        Autoria,
+        Historia,
+        Personagens
+    }
+    try {
+        await Hist.create(Historiap)
+        // await Char.deleteOne({ Nome: Nome, Autoria: Autoria })
+        res.status(201).json({message: 'História inserida no sistema.'})
+    } catch (error) {
+        res.status(500).json({error: error})
+    }
+})
+
+routes.get('/aprovedHist', async (req, res) => {
+    let tempdb = [];
+    const histsAproved = await HistApproved.find()
+    histsAproved.forEach((item, index) => {
+        const finalItem = {...item.toObject(),id: index += 1}
+        tempdb.push(finalItem)
+    })
+    // se tiver duplicando, utilizar new Set
     const uniqueDB = [... new Set(tempdb.map(item => JSON.stringify(item)))].map(item => JSON.parse(item))
     return res.json(uniqueDB)
 })
