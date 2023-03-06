@@ -230,7 +230,7 @@ routes.post('/aprovedhist', async (req, res) => {
 
     let jaexiste;
     histsaproved.forEach((item) => {
-        if (item.Nome === Nome) {
+        if (item.Titulo === Titulo) {
             jaexiste = true
         }
     })
