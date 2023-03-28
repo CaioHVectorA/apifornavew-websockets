@@ -5,17 +5,13 @@ const mongoose = require('mongoose')
 const Char = mongoose.model('Char',{
 Nome: String,
 Desc: String,
-Aparencia: String,
-Poder: String,
-Autoria: String
+Atributos: Object
 }
 )
 const CharAproved = mongoose.model('CharAproved',{
-Nome: String,
-Desc: String,
-Aparencia: String,
-Poder: String,
-Autoria: String
+    Nome: String,
+    Desc: String,
+    Atributos: Object
 })
 
 const Hist = mongoose.model('hist',{
@@ -68,8 +64,8 @@ routes.get('/char', async (req,res) => {
 
 routes.post('/char', async (req, res) => {
     const chars = await Char.find()
-    const { Nome, Desc, Aparencia, Poder, Autoria} = await req.body
-    if (!Nome || !Desc || !Aparencia || !Poder || !Autoria) {
+    const { Nome, Desc, Atributos, Ident} = await req.body
+    if (!Nome || !Desc || !Ident || !Atributos) {
         console.log(Desc)
         return res.status(422).json({error: req.body})
     }
@@ -87,9 +83,8 @@ routes.post('/char', async (req, res) => {
     let Character = {
         Nome,
         Desc,
-        Aparencia,
-        Poder,
-        Autoria
+        Ident,
+        Atributos
     }
     try {
         await Char.create(Character)
@@ -131,9 +126,8 @@ routes.delete('/deleteHists/:id/', async (req, res) => {
 
 routes.post('/aprovedChar', async (req, res) => {
     const chars = await Char.find()
-    const CharsAproved = await CharAproved.find()
-    const { Nome, Desc, Aparencia, Poder, Autoria} = await req.body
-    if (!Nome || !Desc || !Aparencia || !Poder || !Autoria) {
+    const { Nome, Desc, Atributos, Ident} = await req.body
+    if (!Nome || !Desc || !Ident || !Atributos) {
         console.log(Desc)
         return res.status(422).json({error: req.body})
     }
@@ -151,9 +145,8 @@ routes.post('/aprovedChar', async (req, res) => {
     let Character = {
         Nome,
         Desc,
-        Aparencia,
-        Poder,
-        Autoria
+        Ident,
+        Atributos
     }
     try {
         await CharAproved.create(Character)
