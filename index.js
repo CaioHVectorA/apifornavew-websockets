@@ -5,8 +5,7 @@ const cors = require('cors')
 const bodyParser = require('body-parser')
 const routes = require('./Routes')
 const app = express()
-const port = 4000||process.env.port
-
+const port = 4000
 app.use(morgan('dev'))
 app.use(bodyParser.urlencoded({extended: false}))
 app.use(express.json())

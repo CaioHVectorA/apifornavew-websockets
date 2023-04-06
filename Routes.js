@@ -5,13 +5,15 @@ const mongoose = require('mongoose')
 const Char = mongoose.model('Char',{
 Nome: String,
 Desc: String,
-Atributos: Object
+Atributos: Object,
+ImgRef: String
 }
 )
 const CharAproved = mongoose.model('CharAproved',{
     Nome: String,
     Desc: String,
-    Atributos: Object
+    Atributos: Object,
+    ImgRef: String
 })
 
 const Hist = mongoose.model('hist',{
@@ -21,7 +23,7 @@ const Hist = mongoose.model('hist',{
         Historia: String,
         Personagens: Array,
 })
-const HistApproved = mongoose.model('histAproved',{
+const HistAproved = mongoose.model('histAproved',{
     Titulo: String,
     Subtitulo: String,
     Autoria: String,
@@ -34,9 +36,20 @@ routes.delete('/deletartudo',async (req, res) => {
     // const chars = await Char.find()
     try {
         await Char.deleteMany()
+        await Hist.deleteMany()
         res.status(200).json({message: 'Tudo deletado.'})
     } catch (error) {
-        res.status(404).json({error: error})
+        res.status(500).json({error: error})
+    }
+}) 
+routes.delete('/deletartudoaproved',async (req, res) => {
+    // const chars = await Char.find()
+    try {
+        await CharAproved.deleteMany()
+        await HistAproved.deleteMany()
+        res.status(200).json({message: 'Tudo deletado.'})
+    } catch (error) {
+        res.status(500).json({error: error})
     }
 }) 
 // routes.get('/', async (req,res) => {
@@ -64,7 +77,7 @@ routes.get('/char', async (req,res) => {
 
 routes.post('/char', async (req, res) => {
     const chars = await Char.find()
-    const { Nome, Desc, Atributos, Ident} = await req.body
+    const { Nome, Desc, Atributos, ImgRef, Ident} = await req.body
     if (!Nome || !Desc || !Ident || !Atributos) {
         console.log(Desc)
         return res.status(422).json({error: req.body})
@@ -83,8 +96,9 @@ routes.post('/char', async (req, res) => {
     let Character = {
         Nome,
         Desc,
-        Ident,
-        Atributos
+        Atributos,
+        ImgRef,
+        Ident
     }
     try {
         await Char.create(Character)
@@ -128,7 +142,6 @@ routes.post('/aprovedChar', async (req, res) => {
     const chars = await Char.find()
     const { Nome, Desc, Atributos, Ident} = await req.body
     if (!Nome || !Desc || !Ident || !Atributos) {
-        console.log(Desc)
         return res.status(422).json({error: req.body})
     }
 
