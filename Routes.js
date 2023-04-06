@@ -6,14 +6,16 @@ const Char = mongoose.model('Char',{
 Nome: String,
 Desc: String,
 Atributos: Object,
-ImgRef: String
+ImgRef: String,
+Ident: String
 }
 )
 const CharAproved = mongoose.model('CharAproved',{
     Nome: String,
     Desc: String,
     Atributos: Object,
-    ImgRef: String
+    ImgRef: String,
+    Ident: String
 })
 
 const Hist = mongoose.model('hist',{
