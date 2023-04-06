@@ -142,7 +142,8 @@ routes.delete('/deleteHists/:id/', async (req, res) => {
 
 routes.post('/aprovedChar', async (req, res) => {
     const chars = await Char.find()
-    const { Nome, Desc, Atributos, Ident} = await req.body
+    const CharsAproved = CharAproved.find()
+    const { Nome, Desc, Atributos, Ident,ImgRef} = await req.body
     if (!Nome || !Desc || !Ident || !Atributos) {
         return res.status(422).json({error: req.body})
     }
