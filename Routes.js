@@ -141,16 +141,16 @@ routes.delete('/deleteHists/:id/', async (req, res) => {
 })
 
 routes.post('/aprovedChar', async (req, res) => {
-    const chars = await Char.find() 
+    const chars = await Char.find()
     const CharsAproved = await CharAproved.find()
-    const { Nome, Desc, Atributos, Ident,ImgRef, idfinal} = await req.body
+    const { Nome, Desc, Atributos, Ident, ImgRef} = await req.body
     if (!Nome || !Desc || !Ident || !Atributos) {
-        return res.status(422).json({error: req.body})
+        return res.status(422).json({error: 'Você não preencheu todos os requisitos.'})
     }
 
     let jaexiste;
     CharsAproved.forEach((item) => {
-        if (item._id === idfinal) {
+        if (item.Desc === Desc && item.Nome) {
             jaexiste = true
         }
     })
@@ -163,8 +163,7 @@ routes.post('/aprovedChar', async (req, res) => {
         Desc,
         Ident,
         Atributos,
-        ImgRef,
-        idfinal
+        ImgRef
     }
     try {
         await CharAproved.create(Character)
