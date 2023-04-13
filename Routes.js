@@ -167,7 +167,7 @@ routes.post('/aprovedChar', async (req, res) => {
     }
     try {
         await CharAproved.create(Character)
-        await Char.deleteOne({ Nome: Nome, Autoria: Autoria })
+        await Char.deleteOne({ Nome: Nome, Ident: Ident })
         res.status(201).json({message: 'Pessoa inserida no sistema.'})
     } catch (error) {
         res.status(500).json({error: error})
