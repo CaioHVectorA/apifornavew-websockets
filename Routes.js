@@ -141,16 +141,16 @@ routes.delete('/deleteHists/:id/', async (req, res) => {
 })
 
 routes.post('/aprovedChar', async (req, res) => {
-    const chars = await Char.find()
+    const chars = await Char.find() 
     const CharsAproved = await CharAproved.find()
-    const { Nome, Desc, Atributos, Ident,ImgRef} = await req.body
+    const { Nome, Desc, Atributos, Ident,ImgRef, _id} = await req.body
     if (!Nome || !Desc || !Ident || !Atributos) {
         return res.status(422).json({error: req.body})
     }
 
     let jaexiste;
     CharsAproved.forEach((item) => {
-        if (item.Nome === Nome) {
+        if (item.id_ === _id) {
             jaexiste = true
         }
     })
