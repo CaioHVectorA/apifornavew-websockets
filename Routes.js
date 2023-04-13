@@ -163,7 +163,8 @@ routes.post('/aprovedChar', async (req, res) => {
         Desc,
         Ident,
         Atributos,
-        ImgRef
+        ImgRef,
+        idfinal
     }
     try {
         await CharAproved.create(Character)
