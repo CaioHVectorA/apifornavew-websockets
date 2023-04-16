@@ -21,14 +21,14 @@ const CharAproved = mongoose.model('CharAproved',{
 const Hist = mongoose.model('hist',{
         Titulo: String,
         Subtitulo: String,
-        Autoria: String,
+        Ident: String,
         Historia: String,
         Personagens: Array,
 })
 const HistAproved = mongoose.model('histAproved',{
     Titulo: String,
     Subtitulo: String,
-    Autoria: String,
+    Ident: String,
     Historia: String,
     Personagens: Array
 })
@@ -188,7 +188,7 @@ routes.get('/aprovedChar', async (req, res) => {
 
 routes.post('/hist',async (req, res) => {
     const Hists = await Hist.find()
-    const { Titulo, Subtitulo, Autoria, Historia, Personagens} = await req.body
+    const { Titulo, Subtitulo, Ident, Historia, Personagens} = await req.body
     if (!Titulo || !Historia) {
         return res.status(422).json({error: req.body})
     }
@@ -206,13 +206,13 @@ routes.post('/hist',async (req, res) => {
     let Historiap = {
         Titulo,
         Subtitulo,
-        Autoria,
+        Ident,
         Historia,
         Personagens
     }
     try {
         await Hist.create(Historiap)
-        // await Char.deleteOne({ Nome: Nome, Autoria: Autoria })
+        // await Char.deleteOne({ Nome: Nome, Ident: Ident })
         res.status(201).json({message: 'História inserida no sistema.'})
     } catch (error) {
         res.status(500).json({error: error})
@@ -232,8 +232,8 @@ routes.get('/hist',async (req, res) => {
 
 routes.post('/aprovedhist', async (req, res) => {
     const hists = await Hist.find()
-    const histsaproved = await HistApproved.find()
-    const { Titulo, Subtitulo, Autoria, Historia, Personagens} = await req.body
+    const histsaproved = await HistAproved.find()
+    const { Titulo, Subtitulo, Ident, Historia, Personagens} = await req.body
     if (!Titulo || !Historia) {
         return res.status(422).json({error: req.body})
     }
@@ -251,13 +251,13 @@ routes.post('/aprovedhist', async (req, res) => {
     let Historiap = {
         Titulo,
         Subtitulo,
-        Autoria,
+        Ident,
         Historia,
         Personagens
     }
     try {
-        await HistApproved.create(Historiap)
-        await Hist.deleteOne({ Titulo: Titulo, Autoria: Autoria })
+        await HistAproved.create(Historiap)
+        await Hist.deleteOne({ Titulo: Titulo, Ident: Ident })
         res.status(201).json({message: 'História inserida no sistema.'})
     } catch (error) {
         res.status(500).json({error: error})
@@ -266,7 +266,7 @@ routes.post('/aprovedhist', async (req, res) => {
 
 routes.get('/aprovedhist', async (req, res) => {
     let tempdb = [];
-    const histsAproved = await HistApproved.find()
+    const histsAproved = await HistAproved.find()
     histsAproved.forEach((item, index) => {
         const finalItem = {...item.toObject(),id: index += 1}
         tempdb.push(finalItem)
