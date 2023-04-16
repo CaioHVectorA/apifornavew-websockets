@@ -127,13 +127,13 @@ routes.delete('/deletechars/:id/', async (req, res) => {
 
 routes.delete('/deleteHists/:id/', async (req, res) => {
     const chars = await Hist.findOne({_id: req.params.id})
-    db.forEach((item,index) => {
-        if (item._id === req.params.id) {
-            db.splice(index, 1)
-        }
-    })
+    // db.forEach((item,index) => {
+    //     if (item._id === req.params.id) {
+    //         db.splice(index, 1)
+    //     }
+    // })
     if (chars) {
-        await Char.deleteOne({ _id: req.params.id })
+        await Hist.deleteOne({ _id: req.params.id })
         res.status(200).json({message: 'Deletado com sucesso'})
     } else {
         res.status(404).json({message: 'Não há personagens com esse ID.'})
