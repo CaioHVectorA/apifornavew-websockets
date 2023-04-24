@@ -1,6 +1,8 @@
 const express = require('express')
 const routes = express.Router()
 const mongoose = require('mongoose')
+const Main = require('./http')
+const {http, io} = Main
 
 const Char = mongoose.model('Char',{
 Nome: String,
@@ -175,6 +177,7 @@ routes.post('/aprovedChar', async (req, res) => {
 })
 
 routes.get('/aprovedChar', async (req, res) => {
+    // console.log(osocket)
     let tempdb = [];
     const charsAproved = await CharAproved.find()
     charsAproved.forEach((item, index) => {

@@ -1,24 +1,15 @@
-const express = require('express')
-const morgan = require('morgan')
+const websocket = require('./websocket')
 const mongoose = require('mongoose')
-const cors = require('cors')
-const bodyParser = require('body-parser')
-const routes = require('./Routes')
-const app = express()
-const port = 4000
-app.use(morgan('dev'))
-app.use(bodyParser.urlencoded({extended: false}))
-app.use(express.json())
-app.use(cors())
-app.use(routes)
+const socket = require('socket.io')
+const Main = require('./http')
+const port = 4000||process.env.port
+const {io, http} = Main
 
 // iRt9PsVNkKe3DOpk
 mongoose.set('strictQuery',false)
 
 mongoose.connect('mongodb+srv://APIforNAVE:iRt9PsVNkKe3DOpk@dados.dbbl6x2.mongodb.net/?retryWrites=true&w=majority')
 .then(() => {
-    app.listen(port, () => console.log('servidor Rodando!'))
+    http.listen(port, () => console.log('servidor Rodando!'))
 })
 .catch(err => console.log(err))
-
-module.exports = app
