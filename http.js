@@ -13,11 +13,12 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: false }));
 app.use(cors())
 app.use(routes)
-const io = new Server(serverHttp,{cors: {
-    origin: 'http://localhost:3000',
+const io = new Server(serverHttp, {
+  cors: {
+    origin: ['http://localhost:3000', 'https://apifor-nave-withwebsockets.onrender.com'],
     credentials: true
   }
-})
+});
 const Main = {
     io: io,
     http: serverHttp
