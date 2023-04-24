@@ -15,7 +15,7 @@ app.use(cors())
 app.use(routes)
 const io = new Server(serverHttp, {
   cors: {
-    origin: ['http://localhost:3000', 'https://apifor-nave-withwebsockets.onrender.com'],
+    origin: '*',
     credentials: true
   }
 });
